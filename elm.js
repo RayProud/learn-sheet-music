@@ -5555,6 +5555,200 @@ var $author$project$LearnSheetMusic$SubmitAnswer = function (a) {
 };
 var $elm$html$Html$button = _VirtualDom_node('button');
 var $elm$html$Html$div = _VirtualDom_node('div');
+var $elm$core$List$append = F2(
+	function (xs, ys) {
+		if (!ys.b) {
+			return xs;
+		} else {
+			return A3($elm$core$List$foldr, $elm$core$List$cons, ys, xs);
+		}
+	});
+var $elm$svg$Svg$Attributes$d = _VirtualDom_attribute('d');
+var $elm$svg$Svg$Attributes$fill = _VirtualDom_attribute('fill');
+var $elm$svg$Svg$trustedNode = _VirtualDom_nodeNS('http://www.w3.org/2000/svg');
+var $elm$svg$Svg$g = $elm$svg$Svg$trustedNode('g');
+var $author$project$LearnSheetMusic$Negative = function (a) {
+	return {$: 'Negative', a: a};
+};
+var $author$project$LearnSheetMusic$Positive = function (a) {
+	return {$: 'Positive', a: a};
+};
+var $author$project$LearnSheetMusic$Zero = {$: 'Zero'};
+var $elm$core$Basics$abs = function (n) {
+	return (n < 0) ? (-n) : n;
+};
+var $author$project$LearnSheetMusic$getMargin = function (position) {
+	return ((position > 0) && (position < 8)) ? $author$project$LearnSheetMusic$Zero : ((position > 8) ? $author$project$LearnSheetMusic$Positive(position - 8) : $author$project$LearnSheetMusic$Negative(
+		$elm$core$Basics$abs(position)));
+};
+var $elm$svg$Svg$Attributes$height = _VirtualDom_attribute('height');
+var $elm$svg$Svg$rect = $elm$svg$Svg$trustedNode('rect');
+var $elm$svg$Svg$Attributes$width = _VirtualDom_attribute('width');
+var $elm$svg$Svg$Attributes$x = _VirtualDom_attribute('x');
+var $elm$svg$Svg$Attributes$y = _VirtualDom_attribute('y');
+var $author$project$LearnSheetMusic$getNegativeLines = function (index) {
+	var step = 120;
+	var start = 633;
+	return A2(
+		$elm$svg$Svg$rect,
+		_List_fromArray(
+			[
+				$elm$svg$Svg$Attributes$width('584'),
+				$elm$svg$Svg$Attributes$height('5'),
+				$elm$svg$Svg$Attributes$x('0'),
+				$elm$svg$Svg$Attributes$y(
+				$elm$core$String$fromInt(start + (step * index)))
+			]),
+		_List_Nil);
+};
+var $author$project$LearnSheetMusic$getPositiveLines = function (index) {
+	var step = 120;
+	var start = 153;
+	return A2(
+		$elm$svg$Svg$rect,
+		_List_fromArray(
+			[
+				$elm$svg$Svg$Attributes$width('584'),
+				$elm$svg$Svg$Attributes$height('5'),
+				$elm$svg$Svg$Attributes$x('0'),
+				$elm$svg$Svg$Attributes$y(
+				$elm$core$String$fromInt(start - (step * index)))
+			]),
+		_List_Nil);
+};
+var $elm_community$list_extra$List$Extra$initialize = F2(
+	function (n, f) {
+		var step = F2(
+			function (i, acc) {
+				step:
+				while (true) {
+					if (i < 0) {
+						return acc;
+					} else {
+						var $temp$i = i - 1,
+							$temp$acc = A2(
+							$elm$core$List$cons,
+							f(i),
+							acc);
+						i = $temp$i;
+						acc = $temp$acc;
+						continue step;
+					}
+				}
+			});
+		return A2(step, n - 1, _List_Nil);
+	});
+var $elm$core$Debug$log = _Debug_log;
+var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
+var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
+var $author$project$LearnSheetMusic$generateAdditionalLines = function (note) {
+	var margin = $author$project$LearnSheetMusic$getMargin(note.positionFromTheFirstLine);
+	var _v0 = A2($elm$core$Debug$log, 'margin', margin);
+	switch (margin.$) {
+		case 'Zero':
+			return _List_fromArray(
+				[
+					$elm$html$Html$text('')
+				]);
+		case 'Positive':
+			var amount = margin.a;
+			return A2($elm_community$list_extra$List$Extra$initialize, amount, $author$project$LearnSheetMusic$getPositiveLines);
+		default:
+			var amount = margin.a;
+			return A2($elm_community$list_extra$List$Extra$initialize, amount, $author$project$LearnSheetMusic$getNegativeLines);
+	}
+};
+var $elm$svg$Svg$path = $elm$svg$Svg$trustedNode('path');
+var $elm$svg$Svg$svg = $elm$svg$Svg$trustedNode('svg');
+var $elm$svg$Svg$Attributes$transform = _VirtualDom_attribute('transform');
+var $author$project$LearnSheetMusic$drawnNote = function (yCord) {
+	return A2(
+		$elm$svg$Svg$svg,
+		_List_Nil,
+		_List_fromArray(
+			[
+				A2(
+				$elm$svg$Svg$path,
+				_List_fromArray(
+					[
+						$elm$svg$Svg$Attributes$transform(
+						'scale(0.8) translate(400 ' + ($elm$core$String$fromInt(yCord) + ')')),
+						$elm$svg$Svg$Attributes$d('M209.329 79.238C183.062 55.09 169.178 27.69 169.178 0h-30v173.645c-6.239-2.564-13.111-3.921-20.305-3.921-17.458 0-35.266 7.796-48.857 21.388-25.344 25.343-28.516 63.407-7.072 84.853 9.232 9.232 22.016 14.316 35.995 14.316 17.458 0 35.266-7.796 48.857-21.388 11.843-11.843 19.308-26.842 21.018-42.234.244-2.198.354-4.379.354-6.537h.01V80.106c5.808 7.304 12.425 14.394 19.848 21.218 31.772 29.21 25.067 66.542 9.671 89.637l24.962 16.641c23.698-35.548 28.458-89.026-14.33-128.364z')
+					]),
+				_List_Nil)
+			]));
+};
+var $author$project$LearnSheetMusic$placeNote = function (note) {
+	var offset = note.positionFromTheFirstLine * 75;
+	var _v0 = A2($elm$core$Debug$log, 'offset', offset);
+	return $author$project$LearnSheetMusic$drawnNote(550 - offset);
+};
+var $elm$svg$Svg$Attributes$stroke = _VirtualDom_attribute('stroke');
+var $elm$svg$Svg$Attributes$strokeWidth = _VirtualDom_attribute('stroke-width');
+var $elm$svg$Svg$Attributes$viewBox = _VirtualDom_attribute('viewBox');
+var $author$project$LearnSheetMusic$drawStaff = function (note) {
+	return A2(
+		$elm$svg$Svg$svg,
+		_List_fromArray(
+			[
+				$elm$svg$Svg$Attributes$viewBox('0 0 1200 1200')
+			]),
+		_List_fromArray(
+			[
+				A2(
+				$elm$svg$Svg$g,
+				_List_fromArray(
+					[
+						$elm$svg$Svg$Attributes$transform('matrix(1.5 0 0 1 0 200)')
+					]),
+				A2(
+					$elm$core$List$append,
+					_List_fromArray(
+						[
+							A2(
+							$elm$svg$Svg$path,
+							_List_fromArray(
+								[
+									$elm$svg$Svg$Attributes$stroke('#131516'),
+									$elm$svg$Svg$Attributes$strokeWidth('6.885'),
+									$elm$svg$Svg$Attributes$d('M4.216 395.784h791.568M4.216 635.784h791.568M4.216 515.784h791.568M4.216 275.784h791.568M4.216 155.784h791.568')
+								]),
+							_List_Nil),
+							A2(
+							$elm$svg$Svg$path,
+							_List_fromArray(
+								[
+									$elm$svg$Svg$Attributes$stroke('#000'),
+									$elm$svg$Svg$Attributes$strokeWidth('6.532'),
+									$elm$svg$Svg$Attributes$d('M751.579 154.322v482.924')
+								]),
+							_List_Nil),
+							A2(
+							$elm$svg$Svg$rect,
+							_List_fromArray(
+								[
+									$elm$svg$Svg$Attributes$width('41.053'),
+									$elm$svg$Svg$Attributes$height('488'),
+									$elm$svg$Svg$Attributes$x('1156.839'),
+									$elm$svg$Svg$Attributes$y('351.784'),
+									$elm$svg$Svg$Attributes$transform('matrix(.66667 0 0 1 0 -200)')
+								]),
+							_List_Nil),
+							$author$project$LearnSheetMusic$placeNote(note)
+						]),
+					$author$project$LearnSheetMusic$generateAdditionalLines(note))),
+				A2(
+				$elm$svg$Svg$path,
+				_List_fromArray(
+					[
+						$elm$svg$Svg$Attributes$fill('#131516'),
+						$elm$svg$Svg$Attributes$stroke('#131516'),
+						$elm$svg$Svg$Attributes$strokeWidth('.602'),
+						$elm$svg$Svg$Attributes$d('M201.68 653.122c-12.467 2.557-24.02 9.398-35.048 20.294-11.042 11.097-16.952 23.754-17.918 37.758-.608 8.802 1.71 19.011 6.794 30.015 5.07 11.204 13.355 19.614 24.44 25.404 3.755 1.063 5.422 3.188 5.229 5.989-.07 1-1.542 1.903-5.006 2.468-17.931-5.86-32.295-16.7-42.918-32.106-10.61-15.606-15.466-32.824-14.542-52.056 2.024-20.563 9.565-39.339 22.611-56.126 13.26-16.974 29.57-28.511 48.931-34.612l-8.936-71.971c-32.649 23.475-59.55 48.351-80.935 75.015-21.37 26.464-33.48 55.98-36.532 88.531-.607 14.631 1.42 29.042 6.097 43.032 4.663 14.19 12.23 27.175 22.672 39.352 21.1 24.169 49.764 38.005 85.576 41.682 12.288.044 25.474-1.257 39.76-3.89L201.68 653.123zm14.576-1.004l20.669 155.993c31.737-10.272 49.042-36.213 51.885-77.422-.852-13.928-4.007-26.607-10.066-38.08-5.845-11.66-14.06-21.07-24.849-28.246-10.788-7.176-23.2-11.249-37.639-12.245zm-26.753-210.883c6.893-3.544 14.996-10.02 23.895-19.255 8.884-9.035 17.692-19.884 26.195-32.16 8.718-12.464 15.846-25.238 21.383-38.323 5.523-12.885 8.598-25.335 9.399-36.938.345-5 .289-10.03-.41-14.5-.305-7.257-2.125-13.01-5.672-17.074-3.562-3.864-8.237-6.196-14.253-6.611-12.032-.83-23.37 5.824-34.018 19.963-8.303 12.291-15.568 27.066-21.167 43.965-5.813 17.086-9.607 34.11-11.209 51.486-.364 19.873 1.727 36.298 5.857 49.447zm-13.434 10.731a414.791 414.791 0 01-8.208-100.06c1.691-21.59 5.291-41.643 10.8-60.157 5.308-18.527 12.241-34.33 20.828-47.807 8.386-13.49 17.74-23.498 27.862-30.036 9.065-5.806 15.516-8.778 18.925-8.543 2.607.18 4.744 1.332 6.625 3.271 1.88 1.939 4.28 5.12 7.213 9.342 21.53 35.454 30.747 77.093 27.462 124.704-1.56 22.605-6.086 44.402-13.62 65.992-7.32 21.403-17.379 41.613-30.148 60.229-12.983 18.802-27.793 34.865-44.642 48.375l10.804 79.938c8.893-.391 14.964-.776 18.373-.541 15.24 1.051 28.656 5.193 40.847 12.466 12.192 7.273 22.427 16.622 30.491 28.233 8.078 11.412 14.04 24.285 17.887 38.62 3.646 14.321 5.245 29.105 4.196 44.308-1.628 23.605-9.335 44.781-23.107 63.327-13.772 18.547-33.401 31.463-59.103 38.936.928 9.913 2.756 24.31 5.71 42.804 2.742 18.681 4.742 33.492 6.002 44.433 1.26 10.94 1.344 21.398.64 31.6-1.09 15.804-5.867 29.544-14.342 41.421-8.677 11.863-19.767 20.746-33.471 26.634-13.504 5.902-28.177 8.307-43.818 7.227-22.059-1.522-40.882-9.051-56.483-22.389-15.588-13.537-23.266-30.75-22.605-52.01 1.25-9.36 4.064-18.01 8.654-26.135s10.474-14.553 17.851-19.27c7.191-4.93 15.606-7.164 25.072-7.114 7.821.54 15.089 3.252 21.818 7.938 6.514 4.871 11.729 11.06 15.429 18.752 3.5 7.678 5.14 16.032 4.532 24.834-.814 11.803-5.515 21.528-14.102 29.177-8.587 7.648-19.104 11.143-31.336 10.3l-4.612-.319c6.992 12.542 19.398 19.63 37.245 20.86 9.024.623 18.387-.74 27.86-3.705 9.687-3.15 17.853-7.612 24.912-13.557 7.059-5.945 11.94-12.442 14.242-19.519 3.975-7.966 6.366-19.258 7.346-33.461.662-9.602.322-19.274-.82-29-1.156-9.527-3.094-22.324-5.828-38.19-2.747-15.666-4.726-27.863-5.764-36.175a154.383 154.383 0 01-37.817 2.013c-21.858-1.508-42.209-7.334-61.04-17.678-18.83-10.344-35.02-23.923-48.754-40.95-13.535-17.014-23.723-35.807-30.536-56.779-6.628-20.758-9.376-42.253-8.058-64.272 2.21-20.349 7.373-39.69 15.862-57.596 8.503-18.106 18.942-35.074 31.504-50.689 12.562-15.615 25.428-29.802 38.586-42.36a2649.933 2649.933 0 0152.636-47.422z')
+					]),
+				_List_Nil)
+			]));
+};
 var $elm$html$Html$input = _VirtualDom_node('input');
 var $elm$virtual_dom$VirtualDom$Normal = function (a) {
 	return {$: 'Normal', a: a};
@@ -5606,8 +5800,6 @@ var $elm$html$Html$Events$onInput = function (tagger) {
 			$elm$html$Html$Events$alwaysStop,
 			A2($elm$json$Json$Decode$map, tagger, $elm$html$Html$Events$targetValue)));
 };
-var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
-var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $elm$json$Json$Encode$string = _Json_wrap;
 var $elm$html$Html$Attributes$stringProperty = F2(
 	function (key, string) {
@@ -5623,8 +5815,8 @@ var $author$project$LearnSheetMusic$showGamePage = function (note) {
 		_List_Nil,
 		_List_fromArray(
 			[
-				$elm$html$Html$text(
-				'What is this note? ' + $elm$core$String$fromInt(note.positionFromTheFirstLine)),
+				$elm$html$Html$text('What is this note?'),
+				$author$project$LearnSheetMusic$drawStaff(note),
 				A2(
 				$elm$html$Html$div,
 				_List_Nil,
