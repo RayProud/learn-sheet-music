@@ -4,13 +4,11 @@ import Array exposing (Array)
 import Browser
 import Html exposing (..)
 import Html.Attributes exposing (type_, attribute, style)
-import Html.Events exposing (onClick, onInput)
-import List.Extra exposing (initialize)
+import Html.Events exposing (onClick, onInput, on)
+import Json.Decode as Decode exposing (field, int, Decoder, string)
 import Random exposing (Generator)
-import Svg exposing (circle, g, path, rect, svg)
-import Svg.Attributes exposing (cx, cy, d, fill, height, r, stroke, strokeWidth, transform, viewBox, width, x, y)
-import Debug
-
+import Svg exposing (circle, path, rect, svg)
+import Svg.Attributes exposing (cx, cy, d, fill, height, r, transform, viewBox, width, x, y)
 
 bassKey : Html Msg
 bassKey =
@@ -164,8 +162,9 @@ showPreviousAnswer status usersAnswer =
     case status of
         StartAndShowPreviousAnswer note ->
             let
+                upperedNote = String.toUpper usersAnswer
                 info =
-                    if note == usersAnswer then
+                    if note == upperedNote then
                         "Hooray!"
 
                     else
@@ -192,14 +191,34 @@ type alias SubmitEvent =
 showGamePage : Note -> Html Msg
 showGamePage note =
     div []
-        [ text ("What is this note?")
+        [ text "What is this note?"
         , div []
-            [ input [ type_ "text", onInput SetAnswer ] []
+            [ input [ Html.Attributes.autofocus True, type_ "text", onInput SetAnswer, onKeyUp (OnKeyUp note.name) ] []
             , button [ onClick (SubmitAnswer note.name) ] [ text "Submit Answer" ]
             ]
         , drawStaff note
         ]
 
+type alias CurrentTarget =
+    { value : String
+    }
+
+type alias NoteAndKey =
+    { keyCode : Int
+    , value : String
+    }
+
+keyupDecoder : (NoteAndKey -> Msg) -> Decoder Msg
+keyupDecoder msg =
+    Decode.map2 NoteAndKey
+        (field "keyCode" int)
+        (field "currentTarget" (field "value" string))
+            |> Decode.map msg
+
+
+onKeyUp : (NoteAndKey -> Msg) -> Attribute Msg
+onKeyUp msg =
+    on "keyup" (keyupDecoder msg)
 
 view : Model -> Html Msg
 view model =
@@ -222,9 +241,9 @@ initialModel =
 type Msg
     = SetNote Int
     | StartGame
-      --| BackToStart String
     | SubmitAnswer String
     | SetAnswer String
+    | OnKeyUp String NoteAndKey
 
 
 noteGenerator : Generator Int
@@ -261,6 +280,11 @@ update msg model =
         SetAnswer answer ->
             ( { model | usersAnswer = answer }, Cmd.none )
 
+        OnKeyUp rightAnswer {keyCode, value} ->
+            let
+                isEnter = keyCode == 13
+            in
+            if isEnter && value /= "" then ( { model | usersAnswer = value, status = StartAndShowPreviousAnswer rightAnswer }, Cmd.none ) else (model, Cmd.none)
 
 main : Program () Model Msg
 main =
